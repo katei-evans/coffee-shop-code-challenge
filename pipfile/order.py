@@ -1,30 +1,39 @@
 class Order:
-    all_orders = []
-
     def __init__(self, customer, coffee, price):
-        from customer import Customer
-        from coffee import Coffee
+        self.customer = customer
+        self.coffee = coffee
+        self.price = price
+        customer._orders.append(self)
+        coffee._orders.append(self)
         
-        if not isinstance(customer, Customer):
-            raise TypeError("customer must be an instance of Customer")
-        if not isinstance(coffee, Coffee):
-            raise TypeError("coffee must be an instance of Coffee")
-        if not isinstance(price, float) or not 1.0 <= price <= 10.0:
-            raise ValueError("price must be a float between 1.0 and 10.0")
-
-        self._customer = customer
-        self._coffee = coffee
-        self._price = price
-        Order.all_orders.append(self)
-
-    @property
-    def customer(self):
-        return self._customer
-
-    @property
-    def coffee(self):
-        return self._coffee
-
     @property
     def price(self):
         return self._price
+        
+    @price.setter
+    def price(self, value):
+        if not isinstance(value, float):
+            raise TypeError("Price must be a float")
+        if not (1.0 <= value <= 500.0):
+            raise ValueError("Price must be between 1.0 and 500.0")
+        self._price = value
+        
+    @property
+    def customer(self):
+        return self._customer
+        
+    @customer.setter
+    def customer(self, value):
+        if not isinstance(value, Customer):
+            raise TypeError("Customer must be an instance of Customer class")
+        self._customer = value
+        
+    @property
+    def coffee(self):
+        return self._coffee
+        
+    @coffee.setter
+    def coffee(self, value):
+        if not isinstance(value, Coffee):
+            raise TypeError("Coffee must be an instance of Coffee class")
+        self._coffee = value
